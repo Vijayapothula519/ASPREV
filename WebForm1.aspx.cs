@@ -23,7 +23,7 @@ namespace asprevproject
 
         protected void BindGridView()
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            SqlConnection con = new SqlConnection("Data Source=DESKTOP-L5DGAO5;User ID=sa;Password=Vijaya@123;Initial Catalog=genic");
             {
                 string query = "SELECT * FROM Employee11";
                 SqlDataAdapter adapter = new SqlDataAdapter(query, con);

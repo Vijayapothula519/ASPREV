@@ -1,4 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="asprevproject.WebForm1" %>
+﻿
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="asprevproject.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -10,8 +12,21 @@
     <form id="form1" runat="server">
         <div>
             <table>
-                <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="true"></asp:GridView>
+                
+                <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="true"  ></asp:GridView>
                 <br />
+
+
+
+                <tr>
+                    <td>
+                        <asp:Label runat="server" ID="lbl5" Text="empno"></asp:Label></td>
+                    <td><asp:TextBox runat="server" ID="tb5"></asp:TextBox></td>
+                </tr>
+                </br>
+
+                
+
                 <tr>
                     <td><asp:Label runat="server" ID="lbl1" Text="FirstName*"></asp:Label></td>
                     <td><asp:TextBox runat="server" ID="tb1"></asp:TextBox></td>
@@ -25,12 +40,14 @@
                 </tr>
                 <br />
                 <tr>
-                    <td><asp:Label runat="server" text="Gender*"></asp:Label></td>
+                    <td><asp:Label runat="server" text="Gender*"></asp:Label>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="rblGender" ErrorMessage="Please select a gender" EnableClientScript="false" ForeColor="Red"></asp:RequiredFieldValidator>
+                    </td>
                     <td> <asp:RadioButtonList ID="rblGender" runat="server">
                           <asp:ListItem Text="Male" Value="Male"></asp:ListItem>
                         <asp:ListItem Text="Female" Value="Female"></asp:ListItem>
                         </asp:RadioButtonList>
-                        <asp:RequiredFieldValidator ID="rfvGender" runat="server" ControlToValidate="rblGender" ErrorMessage="Please select a gender" EnableClientScript="false" ForeColor="Red"></asp:RequiredFieldValidator>
+                       
                         </td>
                     </tr>
                 <br />
@@ -43,11 +60,18 @@
                 <tr>
                     <td><asp:Label runat="server" ID="lbl4" Text="Mobile*"></asp:Label></td>
                     <td><asp:TextBox runat="server" ID="tb4"></asp:TextBox></td>
-                    <td><asp:RequiredFieldValidator ID="rfv3" runat="server" ControlToValidate="tb4" ErrorMessage="mobile start with 7 or 8 or 9" EnableClientScript="false" ForeColor="red"></asp:RequiredFieldValidator></td>
-                
-                    
+                    <td><asp:RequiredFieldValidator ID="rfv3" runat="server" ControlToValidate="tb4" ErrorMessage="mobile start with 7 or 8 or 9" EnableClientScript="false" ForeColor="red"></asp:RequiredFieldValidator></td>                    
                 </tr>
                 <br />
+
+                <tr>
+                    <td><asp:Label runat="server" ID="lbl6" Text="DOB*"></asp:Label></td>
+                    <td><asp:TextBox runat="server" ID="tb6"></asp:TextBox></td>
+                    <td><asp:RequiredFieldValidator ID="rfv4" runat="server" ControlToValidate="tb6" ErrorMessage="Please Enter DOB" EnableClientScript="false" ForeColor="Red"></asp:RequiredFieldValidator></td>
+                </tr>
+                <br />
+
+               
 
                 <tr>
                     <td colspan="3"><asp:Button runat="server" ID="btnInsert" Text="Insert" OnClick="btnInsert_Click" /></td>
@@ -56,12 +80,23 @@
                 <tr>
                     <td colspan="3"><asp:Button runat="server" ID="btnDelete" Text="Delete" OnClick="btnDelete_Click" /></td>
                 </tr>
+
+                </br>
+
+                <tr>
+                    <td><asp:Label runat="server" ID="label2" Text="" ForeColor="Green"></asp:Label></td>
+                </tr>
+
+                
+                <tr>
+                    <td><asp:Label runat="server" ID="label1" Text="" ForeColor="green"></asp:Label></td>
+                </tr>
                 
                
   
 
             </table>
-        </div>
+            -</div>
     </form>
 </body>
 </html>

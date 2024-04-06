@@ -25,7 +25,7 @@ namespace asprevproject
         {
             SqlConnection con = new SqlConnection("Data Source=DESKTOP-L5DGAO5;User ID=sa;Password=Vijaya@123;Initial Catalog=genic");
             {
-                string query = "SELECT * FROM Employee11";
+                string query = "SELECT * FROM employee22";
                 SqlDataAdapter adapter = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -33,51 +33,7 @@ namespace asprevproject
                 GridView1.DataBind();
             }
         }
-
-
-
-
-        //protected void btnInsert_Click(object sender, EventArgs e)
-        //{
-        //    string firstName = tb1.Text;
-        //    string lastName = tb2.Text;
-        //    string gender = rblGender.SelectedValue;
-        //    string email = tb3.Text;
-        //    string mobile = tb4.Text;
-
-        //    if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(gender) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(mobile))
-        //    {
-        //        ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Please fill in all required fields.');", true);
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        using (SqlConnection con = new SqlConnection(connectionString))
-        //        {
-        //            string query = "INSERT INTO Employee11 (FirstName, LastName, Gender, Email, Mobile) VALUES (@FirstName, @LastName, @Gender, @Email, @Mobile)";
-        //            using (SqlCommand cmd = new SqlCommand(query, con))
-        //            {
-        //                cmd.Parameters.AddWithValue("@FirstName", firstName);
-        //                cmd.Parameters.AddWithValue("@LastName", lastName);
-        //                cmd.Parameters.AddWithValue("@Gender", gender);
-        //                cmd.Parameters.AddWithValue("@Email", email);
-        //                cmd.Parameters.AddWithValue("@Mobile", mobile);
-        //                con.Open();
-        //                cmd.ExecuteNonQuery();
-        //            }
-        //        }
-
-        //        BindGridView();
-        //        ClearFields();
-        //        ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Employee details inserted successfully.');", true);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Error: " + ex.Message + "');", true);
-        //    }
-        //}
-
+       
         protected void btnInsert_Click(object sender, EventArgs e)
         {
             string firstName = tb1.Text;
@@ -85,70 +41,72 @@ namespace asprevproject
             string gender = rblGender.SelectedValue;
             string email = tb3.Text;
             string mobile = tb4.Text;
+            string dob = tb6.Text;
 
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(gender) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(mobile))
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(gender) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(mobile)  )
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Please fill in all required fields.');", true);
                 return;
             }
 
-            // Check if dt is initialized
-            if (dt == null)
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                dt = new DataTable();
-                dt.Columns.Add("FirstName", typeof(string));
-                dt.Columns.Add("LastName", typeof(string));
-                dt.Columns.Add("Gender", typeof(string));
-                dt.Columns.Add("Email", typeof(string));
-                dt.Columns.Add("Mobile", typeof(string));
+                string query = "INSERT INTO employee22  (FirstName, LastName, Gender, Email, Mobile) VALUES (@FirstName, @LastName, @Gender, @Email, @Mobile)";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@FirstName", firstName);
+                command.Parameters.AddWithValue("@LastName", lastName);
+                command.Parameters.AddWithValue("@Gender", gender);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Mobile", mobile);
+                //command.Parameters.AddWithValue("@Dob", Dob);
+
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Data inserted successfully
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Data added to the database.');", true);
+                    
+                    BindGridView();
+                }
+                else
+                {
+                    // Error occurred while inserting data
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Failed to insert data into the database.');", true);
+                }
             }
-
-            // Create a new row for the DataTable
-            DataRow newRow = dt.NewRow();
-            newRow["FirstName"] = firstName;
-            newRow["LastName"] = lastName;
-            newRow["Gender"] = gender;
-            newRow["Email"] = email;
-            newRow["Mobile"] = mobile;
-
-            // Add the new row to the DataTable
-            dt.Rows.Add(newRow);
-
-            // Bind the DataTable to the GridView to display the changes
-            GridView1.DataSource = dt;
-            GridView1.DataBind();
 
             // Clear the form fields
             ClearFields();
-
-            // Show a message indicating that the data has been added to the DataTable
-            ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Data added to the table.');", true);
         }
-
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
+            string empno = tb5.Text;
             string firstName = tb1.Text;
             string lastName = tb2.Text;
             string gender = rblGender.SelectedValue;
             string email = tb3.Text;
             string mobile = tb4.Text;
+            string dob = tb6.Text;
 
-            string query = "DELETE FROM Employee11 WHERE FirstName = @FirstName AND LastName = @LastName AND Gender = @Gender AND Email = @Email AND Mobile = @Mobile";
-
+            string query = "DELETE FROM employee22 WHERE empno=" + empno ;
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.Parameters.AddWithValue("@FirstName", firstName);
-                        cmd.Parameters.AddWithValue("@LastName", lastName);
-                        cmd.Parameters.AddWithValue("@Gender", gender);
-                        cmd.Parameters.AddWithValue("@Email", email);
-                        cmd.Parameters.AddWithValue("@Mobile", mobile);
                         con.Open();
                         cmd.ExecuteNonQuery();
+                        
+                        
+                       
+                       
+                        cmd.ExecuteNonQuery();
+                        con.Close();
                     }
                 }
 
@@ -160,8 +118,9 @@ namespace asprevproject
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Error: " + ex.Message + "');", true);
             }
+           // btnDelete_Click.
         }
-
+        
         private void ClearFields()
         {
             tb1.Text = string.Empty;
@@ -169,6 +128,7 @@ namespace asprevproject
             rblGender.ClearSelection();
             tb3.Text = string.Empty;
             tb4.Text = string.Empty;
+            tb6.Text = string.Empty;
         }
     }
 }
